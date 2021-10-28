@@ -44,7 +44,9 @@ public class DictionaryManagement extends Dictionary {
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
         boolean found = false;
-        for(Word word : list) {
+        // @@@@@ vòng lặp này t sửa lại tí :))
+        for(int i = 0 ; i < list.size(); i++) {
+            Word word = list.get(i);
             if(word.getWord_target().equals(input)) {
                 found = true;
                 System.out.println("Từ bạn tra có nghĩa là: " + word.getWord_explain());
@@ -57,49 +59,40 @@ public class DictionaryManagement extends Dictionary {
 
     }
     public void addNewWord(String word_target, String word_explain) throws IOException {
-       boolean check = true;
-       boolean empty = true;
-       if(word_target.trim().isEmpty() || !word_explain.trim().isEmpty()) {
-           empty = false;
-       }
-       for(int i = 0 ; i < list.size(); i++) {
-           Word w = list.get(i);
-           if(w.getWord_target().equalsIgnoreCase(word_target)) {
-               check = false;
-               break;
-           }
-       }
-       if(!check) {
-           System.out.println("Từ này đã có trong từ điển");
-       }
-
-       else if(empty) {
-           System.out.println("Từ bạn nhập không hợp lệ");
+        boolean check = true;
+        // @@@@@ t bỏ cái empty với viết lại vòng lặp nnay cho ngắn
+        for(Word w : list) {
+            if(w.getWord_target().equalsIgnoreCase(word_target)) {
+                check = false;
+                break;
+            }
         }
-       else {
-           list.add(new Word(word_target,word_explain));
+        if(!check) {
+            System.out.println("Từ này đã có trong từ điển");
+        }
+        else {
+            list.add(new Word(word_target,word_explain));
+        }
        }
 
 
-    }
+
     public void removeWord(String word) {
-        for(int i = 0; i < list.size(); i++) {
-            Word w = list.get(i);
+        // @@@@@ vòng lặp
+        for(Word w : list) {
             if(w.getWord_target().equalsIgnoreCase(word)) {
-                Word remove = list.get(i);
-                list.remove(remove);
+                list.remove(w);
                 break;
             }
         }
     }
     public void editWord(String word) {
         boolean check = false;
-        for(int i = 0 ; i < list.size(); i++) {
-            Word w = list.get(i);
+        // @@@@@ vòng lặp
+        for(Word w : list) {
             if(w.getWord_target().equalsIgnoreCase(word)) {
                 check = true;
-                Word remove = list.get(i);
-                list.remove(remove);
+                list.remove(w);
                 break;
             }
         }
@@ -118,8 +111,8 @@ public class DictionaryManagement extends Dictionary {
     }
     public void dictionaryExportToFile() throws IOException {
         FileWriter fw = new FileWriter("D:\\OOP\\BTL1\\data\\dictionaries.txt");
-        for (int i = 0 ;i < list.size();i++) {
-            Word word = list.get(i);
+        // @@@@@ sửa vòng lặp cho gọn
+        for (Word word : list) {
             fw.write(String.format("%s\t%s\n", word.getWord_target(), word.getWord_explain()));
         }
         fw.close();
